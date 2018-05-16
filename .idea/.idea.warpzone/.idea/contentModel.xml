@@ -4,13 +4,15 @@
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="backgroundHandler.cs" t="Include" />
-        <e p="ObstacleHandler.cs" t="Include" />
-        <e p="PlayerHandler.cs" t="Include" />
-        <e p="ShadowHandler.cs" t="Include" />
-        <e p="SpawnHandler.cs" t="Include" />
-        <e p="uiInverter.cs" t="Include" />
-        <e p="UiTimer.cs" t="Include" />
+        <e p="Scripts" t="Include">
+          <e p="backgroundHandler.cs" t="Include" />
+          <e p="ObstacleHandler.cs" t="Include" />
+          <e p="PlayerHandler.cs" t="Include" />
+          <e p="ShadowHandler.cs" t="Include" />
+          <e p="SpawnHandler.cs" t="Include" />
+          <e p="uiInverter.cs" t="Include" />
+          <e p="UiTimer.cs" t="Include" />
+        </e>
       </e>
       <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />

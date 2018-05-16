@@ -51,4 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f130361ade3074c8f7f4bdff93bc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacle: {fileID: 1406657828410458, guid: ea0180c5518fa46739edf3d2e2761df8, type: 2}
+  ObstaclePrefab: {fileID: 0}
+  LiveObstacles: []
+  SpawnedPerTick: 6
