@@ -11,7 +11,8 @@ public class SpawnHandler : MonoBehaviour {
 	public float Speed = 3;
 	private float _speedtimer = 15;
 
-	private double _timer = 0.1;
+	private double _spawntimer = 0.1;
+	public float SpawnFrequency = 5;
 	public float SpawnedPerTick = 6;
 
 	void Start() {
@@ -37,6 +38,9 @@ public class SpawnHandler : MonoBehaviour {
 			LiveObstacles.Remove(o);
 			Destroy(o);
 		}
+		SpawnFrequency = 5;
+		_spawntimer = 0.1;
+		Speed = 3;
 	}
 	// Update is called once per frame
 	void Update () {
@@ -45,11 +49,12 @@ public class SpawnHandler : MonoBehaviour {
 		if (_speedtimer <= 0) {
 			_speedtimer = 15;
 			Speed++;
+			SpawnFrequency--;
 		}
-		_timer -= Time.deltaTime * (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker) / 10;
-		if (!(_timer <= 0)) return;
+		_spawntimer -= Time.deltaTime;
+		if (!(_spawntimer <= 0)) return;
 		Spawn();
-		_timer = 2;
+		_spawntimer = SpawnFrequency;
 
 	}
 }

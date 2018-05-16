@@ -63,10 +63,11 @@ public class PlayerHandler : MonoBehaviour {
 		}
 
 		//stop jump short if spacebar isn't pressed
-		if ((transform.position.y > 2 || transform.position.y < -2) 
-		    && !Input.GetKey(KeyCode.Space) 
-		    && _rb2D.velocity.y > 0) {
-			_rb2D.velocity *= new Vector2(1, 0);
+		if ((transform.position.y > 2 || transform.position.y < -2) && !Input.GetKey(KeyCode.Space)) {
+			if (_rb2D.velocity.y > 0 && !Upsidedown || _rb2D.velocity.y < 0 && Upsidedown)
+			{
+				_rb2D.velocity *= new Vector2(1, 0);
+			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.X)) {
@@ -84,8 +85,8 @@ public class PlayerHandler : MonoBehaviour {
 		_jumpable = true;
 		//Collision code which allows you to jump on top of obstacles
 		if (!other.gameObject.CompareTag("Obstacle")) return;
-		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y < transform.position.y && !Upsidedown) 
-		    || (other.transform.position.y > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && Upsidedown)) 
+		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y < transform.position.y + 0.1 && !Upsidedown) 
+		    || (other.transform.position.y > transform.position.y - 0.1 + GetComponent<SpriteRenderer>().bounds.size.y / 2 && Upsidedown)) 
 			return;
 		//If it hasn't returned, you died.
 		ResetGame();
