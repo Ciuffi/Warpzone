@@ -64,7 +64,7 @@ public class PlayerHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//Jump
-#if UNITY_STANDALONE || UNITY_WEBPLAYER
+#if UNITY_WEBGL	
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			Jump();
 		}
