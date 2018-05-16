@@ -531,6 +531,12 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114019421818392466, guid: 33d7c50a804f3b94fa2d50f81a5338b1,
+        type: 2}
+      propertyPath: ObstaclePrefab
+      value: 
+      objectReference: {fileID: 1406657828410458, guid: ea0180c5518fa46739edf3d2e2761df8,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33d7c50a804f3b94fa2d50f81a5338b1, type: 2}
   m_IsPrefabParent: 0
@@ -1048,7 +1054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cdaf052bf5f0a45baa3e0cde17495a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ticker: 0
+  Ticker: 0
 --- !u!114 &1781631098
 MonoBehaviour:
   m_ObjectHideFlags: 0
