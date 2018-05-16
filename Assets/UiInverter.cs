@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class uiInverter : MonoBehaviour {
+public class UiInverter : MonoBehaviour {
 
 
-	public void invert() {
+	//Invert all the canvas UI elements colours
+	public void Invert() {
 		foreach (Text t in GetComponentsInChildren<Text>()) {
 			t.color = t.color == Color.black ? Color.white : Color.black;
 		}
