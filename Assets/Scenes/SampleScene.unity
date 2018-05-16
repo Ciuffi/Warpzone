@@ -537,6 +537,11 @@ Prefab:
       value: 
       objectReference: {fileID: 1406657828410458, guid: ea0180c5518fa46739edf3d2e2761df8,
         type: 2}
+    - target: {fileID: 114019421818392466, guid: 33d7c50a804f3b94fa2d50f81a5338b1,
+        type: 2}
+      propertyPath: Speed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33d7c50a804f3b94fa2d50f81a5338b1, type: 2}
   m_IsPrefabParent: 0
@@ -785,7 +790,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!212 &1468183330
 SpriteRenderer:
   m_ObjectHideFlags: 0

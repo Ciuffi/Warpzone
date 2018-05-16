@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ObstacleHandler : MonoBehaviour {
 
-public float Speed;
+
+	public SpawnHandler Spawn;
 	// Use this for initialization
 	void Start () {
 		//Flip the Obstacle if its upsidedown
@@ -16,9 +17,10 @@ public float Speed;
 	// Update is called once per frame
 	void Update () {
 		//move faster as the game progresses
-		transform.Translate(Vector2.left * Time.deltaTime * Speed * (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker / 10));
+		transform.Translate(Vector2.left * Time.deltaTime * Spawn.Speed);
 		//destroy off camera
 		if (transform.position.x < -10) {
+			Spawn.LiveObstacles.Remove(gameObject);
 			Destroy(gameObject);
 		}
 	}
