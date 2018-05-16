@@ -2,24 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class invert : MonoBehaviour {
+public class backgroundHandler : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+	//Inverts the backgrounds color
 	public void Invert() {
-		if (GetComponent<SpriteRenderer>().color == Color.white) {
-			GetComponent<SpriteRenderer>().color = Color.black;
-		}
-		else {
-			GetComponent<SpriteRenderer>().color = Color.white;
-		}
+		GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color == Color.white ? Color.black : Color.white;
 	}
 }
