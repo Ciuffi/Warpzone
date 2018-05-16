@@ -10,6 +10,9 @@ public class obstacle : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		floor = GameObject.FindGameObjectWithTag("Floor");
+		if (transform.position.y < 0) {
+			GetComponent<SpriteRenderer>().flipY = true;
+		}
 	}
 	
 	// Update is called once per frame

@@ -38,10 +38,13 @@ public class movement : MonoBehaviour {
 	private void warp() {
 		rb2d.velocity *= Vector2.down;
 		transform.position = shadow.transform.position;
+		GetComponent<SpriteRenderer>().flipY = !GetComponent<SpriteRenderer>().flipY;
+		shadow.GetComponent<SpriteRenderer>().flipY = !shadow.GetComponent<SpriteRenderer>().flipY;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.DrawRay(transform.position, Vector3.down, Color.yellow, 10);
 		if (Input.GetKeyDown(KeyCode.Space) && jumpable) {
 			float floatheight = Height;
 			if (Upsidedown) {
@@ -61,23 +64,20 @@ public class movement : MonoBehaviour {
 	}
 
 	private void OnCollisionEnter2D(Collision2D other) {
-		if (other.gameObject.CompareTag("Floor")) {
-			jumpable = true;
+		jumpable = true;
+		if (!other.gameObject.CompareTag("Obstacle")) return;
+		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y < transform.position.y && !Upsidedown) 
+		    || (other.transform.position.y > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2)) 
+			return;
+		GameObject.FindGameObjectWithTag("Spawner").GetComponent<Spawner>().gameOver();
+		if (Upsidedown) {
+			invert();
 		}
-		if (other.gameObject.CompareTag("Obstacle")) {
-			GameObject.FindGameObjectWithTag("Spawner").GetComponent<Spawner>().gameOver();
-			if (Upsidedown) {
-				invert();
-			}
-
-			GameObject.FindGameObjectWithTag("Timer").GetComponent<timer>().reset();
-			back();
-		}
+		GameObject.FindGameObjectWithTag("Timer").GetComponent<timer>().reset();
+		back();
 	}
 
 	private void OnCollisionExit2D(Collision2D other) {
-		if (other.gameObject.CompareTag("Floor")) {
-			jumpable = false;
-		}
+		jumpable = false;
 	}
 }
