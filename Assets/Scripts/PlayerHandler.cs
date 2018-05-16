@@ -85,8 +85,8 @@ public class PlayerHandler : MonoBehaviour {
 		_jumpable = true;
 		//Collision code which allows you to jump on top of obstacles
 		if (!other.gameObject.CompareTag("Obstacle")) return;
-		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y < transform.position.y + 0.1 && !Upsidedown) 
-		    || (other.transform.position.y > transform.position.y - 0.1 + GetComponent<SpriteRenderer>().bounds.size.y / 2 && Upsidedown)) 
+		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y < transform.position.y && !Upsidedown) 
+		    || (other.transform.position.y > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && Upsidedown)) 
 			return;
 		//If it hasn't returned, you died.
 		ResetGame();
