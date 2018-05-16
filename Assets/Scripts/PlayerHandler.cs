@@ -99,7 +99,6 @@ public class PlayerHandler : MonoBehaviour {
 		if (!(transform.position.y > 2) && !(transform.position.y < -2))return;
 		if ((!(_rb2D.velocity.y > 0) || Upsidedown) && (!(_rb2D.velocity.y < 0) || !Upsidedown)) return;
 		_rb2D.velocity *= new Vector2(1, 0);
-		Debug.Log("short hopped");
 #endif
 	}
 
