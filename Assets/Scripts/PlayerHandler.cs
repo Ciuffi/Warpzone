@@ -9,9 +9,9 @@ public class PlayerHandler : MonoBehaviour {
 	private GameObject[] _backgrounds;
 	private GameObject _shadow;
 	private bool _jumpable;
-
-	public float Speed = 40;
 	public float Height = 10;
+
+	private bool _shorthop = false;
 	// Use this for initialization
 	void Start () {
 		_rb2D = GetComponent<Rigidbody2D>();
@@ -49,30 +49,58 @@ public class PlayerHandler : MonoBehaviour {
 		GetComponent<SpriteRenderer>().flipY = !GetComponent<SpriteRenderer>().flipY;
 		_shadow.GetComponent<SpriteRenderer>().flipY = !_shadow.GetComponent<SpriteRenderer>().flipY;
 	}
+
+	private void Jump() {
+		if (!_jumpable) return;
+		float floatheight = Height;
+		//Inviert height if upsidedown
+		if (Upsidedown) {
+			floatheight *= -1;
+		}
+		_shorthop = false;
+		_rb2D.AddForce(new Vector2(0,floatheight), ForceMode2D.Impulse);
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		//Jump
-		if (Input.GetKeyDown(KeyCode.Space) && _jumpable) {
-			float floatheight = Height;
-			//Inviert height if upsidedown
-			if (Upsidedown) {
-				floatheight *= -1;
-			}
-			_rb2D.AddForce(new Vector2(0,floatheight), ForceMode2D.Impulse);
+#if UNITY_WEBGL	
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			Jump();
 		}
-
-		//stop jump short if spacebar isn't pressed
-		if ((transform.position.y > 2 || transform.position.y < -2) && !Input.GetKey(KeyCode.Space)) {
-			if (_rb2D.velocity.y > 0 && !Upsidedown || _rb2D.velocity.y < 0 && Upsidedown)
-			{
-				_rb2D.velocity *= new Vector2(1, 0);
-			}
-		}
-
+		
 		if (Input.GetKeyDown(KeyCode.X)) {
 			Invert();
 		}
+		
+	if ((!(transform.position.y > 2) && !(transform.position.y < -2)) || Input.GetKey(KeyCode.Space)) return;
+		if (_rb2D.velocity.y > 0 && !Upsidedown || _rb2D.velocity.y < 0 && Upsidedown)
+		{
+			_rb2D.velocity *= new Vector2(1, 0);
+		}
+#else
+		if (Input.touches.Length > 0) {
+			if (Input.GetTouch(0).phase == TouchPhase.Began) {
+				if (Input.GetTouch(0).position.x < 350) {
+					Jump();
+				}
+				else {
+					Invert();
+				}
+			}
+
+			//checks if jump is being held.
+			if (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.x < 350) {
+				_shorthop = true;
+			}
+		}
+		//stop jump short if jump isn't held
+		if (!_shorthop) return;
+		if (!(transform.position.y > 2) && !(transform.position.y < -2))return;
+		if ((!(_rb2D.velocity.y > 0) || Upsidedown) && (!(_rb2D.velocity.y < 0) || !Upsidedown)) return;
+		_rb2D.velocity *= new Vector2(1, 0);
+		Debug.Log("short hopped");
+#endif
 	}
 
 	//resets player position
