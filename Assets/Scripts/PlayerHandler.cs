@@ -62,6 +62,13 @@ public class PlayerHandler : MonoBehaviour {
 			_rb2D.AddForce(new Vector2(0,floatheight), ForceMode2D.Impulse);
 		}
 
+		//stop jump short if spacebar isn't pressed
+		if ((transform.position.y > 2 || transform.position.y < -2) 
+		    && !Input.GetKey(KeyCode.Space) 
+		    && _rb2D.velocity.y > 0) {
+			_rb2D.velocity *= new Vector2(1, 0);
+		}
+
 		if (Input.GetKeyDown(KeyCode.X)) {
 			Invert();
 		}
