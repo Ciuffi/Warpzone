@@ -92,7 +92,7 @@ public class PlayerHandler : MonoBehaviour {
 	}
 
 	private void ResetGame() {
-		GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>().gameOver();
+		GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>().GameOver();
 		if (Upsidedown) {
 			Invert();
 		}
