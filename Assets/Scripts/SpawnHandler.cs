@@ -15,6 +15,7 @@ public class SpawnHandler : MonoBehaviour {
 	private double _spawntimer = 0.1;
 	public float SpawnFrequency = 4;
 	public float SpawnedPerTick = 6;
+	public bool Pause;
 
 	void Start() {
 		LiveObstacles = new List<GameObject>();
@@ -43,9 +44,11 @@ public class SpawnHandler : MonoBehaviour {
 		SpawnFrequency = 5;
 		_spawntimer = 0.1;
 		Speed = 3;
+		Pause = true;
 	}
 	// Update is called once per frame
 	void Update () {
+		if (Pause) return;
 		//Spawn them more often as the game progresses
 		_speedtimer -= Time.deltaTime;
 		if (_speedtimer <= 0) {

@@ -13,6 +13,10 @@ public class PlayerHandler : MonoBehaviour {
 	public int Highscore;
 
 	private bool _shorthop = false;
+	private bool _reset;
+	private float _resettimer = 2;
+
+	private bool _newscore;
 	// Use this for initialization
 	void Start () {
 		_rb2D = GetComponent<Rigidbody2D>();
@@ -67,12 +71,23 @@ public class PlayerHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//reset game
+		if (_reset) {
+			_resettimer -= Time.deltaTime;
+		}
+
+		if (_resettimer <= 0) {
+			_reset = false;
+			_resettimer = 2;
+			ResetGame();
+		}
 		//updates highscore
 		if (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker > Highscore) {
+			_newscore = true;
 			Highscore = (int) GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker;
 		}
 		//Jump
-#if UNITY_WEBGL	
+		#if UNITY_WEBGL	
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			Jump();
 		}
@@ -88,7 +103,7 @@ public class PlayerHandler : MonoBehaviour {
 		}
 
 
-#else
+		#else
 		if (Input.touches.Length > 0) {
 			foreach (Touch T in Input.touches) {
 				if (T.phase == TouchPhase.Began) {
@@ -111,12 +126,7 @@ public class PlayerHandler : MonoBehaviour {
 		if (!(transform.position.y > 2) && !(transform.position.y < -2))return;
 		if ((!(_rb2D.velocity.y > 0) || Upsidedown) && (!(_rb2D.velocity.y < 0) || !Upsidedown)) return;
 		_rb2D.velocity *= new Vector2(1, 0);
-#endif
-	}
-
-	//resets player position
-	private void ResetPlayer() {
-		transform.position = new Vector3(-7, 1, -01);
+		#endif
 	}
 
 	private void OnCollisionEnter2D(Collision2D other) {
@@ -128,24 +138,55 @@ public class PlayerHandler : MonoBehaviour {
 		    || (other.transform.position.y > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && Upsidedown)) 
 			return;
 		//If it hasn't returned, you died.
-		ResetGame();
+		_reset = true;
+		Death();
 	}
-
-	public void ResetGame() {
-		GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>().GameOver();
-		if (Upsidedown) {
-			Invert();
-		}
-		//saves highscore permanently 
-		PlayerPrefs.SetInt("Highscore", Highscore);
-		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Reset();
-		ResetPlayer();
-		Camera.main.GetComponent<CameraShake>().StartShake(0.5f, 3);
-		
-	}
-
 	private void OnCollisionExit2D(Collision2D other) {
 		//stops you from jumping while in the air.
 		_jumpable = false;
+	}
+
+	private void Death() {
+		GetComponentInChildren<ParticleSystem>().Play();
+		InvisiblePlayer();
+		PlayerPrefs.SetInt("Highscore", Highscore);
+		GameObject.FindGameObjectWithTag("endcard").
+			GetComponent<EndCard>().
+			On(GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker, 
+				Highscore, _newscore);
+		_newscore = false;
+		GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>().GameOver();
+		Camera.main.GetComponent<CameraShake>().StartShake(0.5f, 3);
+		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Pause = true;
+		
+	}
+	public void ResetGame() {
+		if (Upsidedown) {
+			Invert();
+		}
+		InvisiblePlayer();
+		//saves highscore permanently 
+		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Reset();
+		ResetPlayer();
+		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Pause = false;
+		GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>().Pause = false;
+		GameObject.FindGameObjectWithTag("endcard").GetComponent<EndCard>().Off();
+	}
+	//resets player position
+	private void ResetPlayer() {
+		transform.position = new Vector3(-7, 1, -01);
+		_jumpable = false;
+	}
+
+	private void InvisiblePlayer() {
+		if (GetComponent<SpriteRenderer>().enabled) {
+			GetComponent<SpriteRenderer>().enabled = false;
+			GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = false;
+		}
+		else {
+			GetComponent<SpriteRenderer>().enabled = true;
+			GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = true;
+
+		}
 	}
 }

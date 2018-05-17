@@ -11,6 +11,7 @@ TagManager:
   - Spawner
   - Timer
   - highscore
+  - endcard
   layers:
   - Default
   - TransparentFX
