@@ -23,6 +23,8 @@ public class PlayerHandler : MonoBehaviour {
 	private void Invert() {
 		//invert UI.
 		FindObjectOfType<Canvas>().GetComponent<UiInverter>().Invert();
+		//Shake Camera.
+		Camera.main.GetComponent<CameraShake>().StartShake(0.05f, 6);
 		
 		//Change gravity for flip.
 		if (Upsidedown) {
@@ -78,6 +80,8 @@ public class PlayerHandler : MonoBehaviour {
 		{
 			_rb2D.velocity *= new Vector2(1, 0);
 		}
+
+
 #else
 		if (Input.touches.Length > 0) {
 			if (Input.GetTouch(0).phase == TouchPhase.Began) {
