@@ -130,6 +130,7 @@ public class PlayerHandler : MonoBehaviour {
 		}
 		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Reset();
 		ResetPlayer();
+		Camera.main.GetComponent<CameraShake>().StartShake(0.5f, 3);
 	}
 
 	private void OnCollisionExit2D(Collision2D other) {
