@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,15 +9,16 @@ public class SpawnHandler : MonoBehaviour {
 
 	public GameObject ObstaclePrefab;
 	public List<GameObject> LiveObstacles;
-	public float Speed = 3;
-	private float _speedtimer = 15;
-
+	public float Speed = 6;
+	public float TimePerSpeedup = 2;
+	private float _speedtimer;
 	private double _spawntimer = 0.1;
-	public float SpawnFrequency = 5;
+	public float SpawnFrequency = 4;
 	public float SpawnedPerTick = 6;
 
 	void Start() {
 		LiveObstacles = new List<GameObject>();
+		_speedtimer = TimePerSpeedup;
 	}
 	private void Spawn() {
 		//Spawn the Obstacles, making sure not to spawn any in the floor.
@@ -47,9 +49,14 @@ public class SpawnHandler : MonoBehaviour {
 		//Spawn them more often as the game progresses
 		_speedtimer -= Time.deltaTime;
 		if (_speedtimer <= 0) {
-			_speedtimer = 15;
-			Speed++;
-			SpawnFrequency--;
+			_speedtimer = TimePerSpeedup;
+			Speed += 0.5f;
+			if (SpawnFrequency > 1) {
+				SpawnFrequency -= 0.5f;
+			}
+			else {
+				SpawnFrequency = 0.8f;
+			}
 		}
 		_spawntimer -= Time.deltaTime;
 		if (!(_spawntimer <= 0)) return;

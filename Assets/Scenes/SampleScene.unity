@@ -532,7 +532,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.019323945, y: 0.026361478}
   m_AnchorMax: {x: 0.019323945, y: 0.026361478}
-  m_AnchoredPosition: {x: 69, y: 26.209991}
+  m_AnchoredPosition: {x: 69, y: 26.20996}
   m_SizeDelta: {x: 160, y: 73.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &883275243
@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Upsidedown: 0
-  Height: 8
+  Height: 6
 --- !u!50 &1468183329
 Rigidbody2D:
   serializedVersion: 4
@@ -886,7 +886,7 @@ Rigidbody2D:
   m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 5
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -1069,7 +1069,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.99128175, y: 0.9868074}
   m_AnchorMax: {x: 0.99128175, y: 0.9868074}
-  m_AnchoredPosition: {x: -76, y: -19.160004}
+  m_AnchoredPosition: {x: -76, y: -19.160034}
   m_SizeDelta: {x: 160, y: 49.31}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1780909504

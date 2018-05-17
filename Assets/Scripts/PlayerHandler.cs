@@ -9,7 +9,7 @@ public class PlayerHandler : MonoBehaviour {
 	private GameObject[] _backgrounds;
 	private GameObject _shadow;
 	private bool _jumpable;
-	public float Height = 10;
+	public float Height = 6;
 
 	private bool _shorthop = false;
 	// Use this for initialization
@@ -84,20 +84,22 @@ public class PlayerHandler : MonoBehaviour {
 
 #else
 		if (Input.touches.Length > 0) {
-			if (Input.GetTouch(0).phase == TouchPhase.Began) {
-				if (Input.GetTouch(0).position.x < Screen.width /2f) {
-					Jump();
+			foreach (Touch T in Input.touches) {
+				if (T.phase == TouchPhase.Began) {
+					if (T.position.x < Screen.width / 2f) {
+						Jump();
+					}
+					else {
+						Invert();
+					}
 				}
-				else {
-					Invert();
+				//checks if jump is being held.
+				if (T.phase == TouchPhase.Ended && T.position.x < Screen.width / 2f) {
+					_shorthop = true;
 				}
-			}
-
-			//checks if jump is being held.
-			if (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.x < Screen.width /2f) {
-				_shorthop = true;
 			}
 		}
+
 		//stop jump short if jump isn't held
 		if (!_shorthop) return;
 		if (!(transform.position.y > 2) && !(transform.position.y < -2))return;
