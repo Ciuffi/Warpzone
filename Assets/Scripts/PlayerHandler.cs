@@ -24,7 +24,7 @@ public class PlayerHandler : MonoBehaviour {
 		//invert UI.
 		FindObjectOfType<Canvas>().GetComponent<UiInverter>().Invert();
 		//Shake Camera.
-		Camera.main.GetComponent<CameraShake>().StartShake(0.05f, 6);
+		Camera.main.GetComponent<CameraShake>().StartShake(0.1f, 6);
 		
 		//Change gravity for flip.
 		if (Upsidedown) {

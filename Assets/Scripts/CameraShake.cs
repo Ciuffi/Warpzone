@@ -8,11 +8,11 @@ public class CameraShake : MonoBehaviour {
 	public float Shakeamount = 0.7f;
 	public float Shakedecrease = 1.0f;
 
-	private Transform _camstart;
+	private Vector3 _camstart;
 	// Use this for initialization
 	void Start () {
 		_maincam = Camera.main;
-		_camstart = _maincam.transform;
+		_camstart = _maincam.transform.localPosition;
 	}
 	
 	// Update is called once per frame
@@ -24,7 +24,7 @@ public class CameraShake : MonoBehaviour {
 		}
 		else {
 			Shake = 0.0f;
-			_maincam.transform.localPosition = _camstart.localPosition;
+			_maincam.transform.localPosition = _camstart;
 		}
 	}
 
@@ -32,6 +32,5 @@ public class CameraShake : MonoBehaviour {
 		Shake = 1;
 		Shakeamount = shakeAmount;
 		Shakedecrease = shakeDecrease;
-		Debug.Log("Shooketh");
 	}
 }
