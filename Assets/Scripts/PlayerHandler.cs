@@ -85,7 +85,7 @@ public class PlayerHandler : MonoBehaviour {
 #else
 		if (Input.touches.Length > 0) {
 			if (Input.GetTouch(0).phase == TouchPhase.Began) {
-				if (Input.GetTouch(0).position.x < 350) {
+				if (Input.GetTouch(0).position.x < Screen.width /2f) {
 					Jump();
 				}
 				else {
@@ -94,7 +94,7 @@ public class PlayerHandler : MonoBehaviour {
 			}
 
 			//checks if jump is being held.
-			if (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.x < 350) {
+			if (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.x < Screen.width /2f) {
 				_shorthop = true;
 			}
 		}
