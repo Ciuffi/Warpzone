@@ -10,6 +10,7 @@ public class PlayerHandler : MonoBehaviour {
 	private GameObject _shadow;
 	private bool _jumpable;
 	public float Height = 6;
+	public int Highscore;
 
 	private bool _shorthop = false;
 	// Use this for initialization
@@ -17,6 +18,7 @@ public class PlayerHandler : MonoBehaviour {
 		_rb2D = GetComponent<Rigidbody2D>();
 		_backgrounds = GameObject.FindGameObjectsWithTag("Background");
 		_shadow = GameObject.FindGameObjectWithTag("Shadow");
+		Highscore = PlayerPrefs.GetInt("Highscore", Highscore);
 	}
 
 	//Inverts the map and warps the player.
@@ -65,6 +67,10 @@ public class PlayerHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//updates highscore
+		if (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker > Highscore) {
+			Highscore = (int) GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker;
+		}
 		//Jump
 #if UNITY_WEBGL	
 		if (Input.GetKeyDown(KeyCode.Space)) {
@@ -125,14 +131,17 @@ public class PlayerHandler : MonoBehaviour {
 		ResetGame();
 	}
 
-	private void ResetGame() {
+	public void ResetGame() {
 		GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>().GameOver();
 		if (Upsidedown) {
 			Invert();
 		}
+		//saves highscore permanently 
+		PlayerPrefs.SetInt("Highscore", Highscore);
 		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Reset();
 		ResetPlayer();
 		Camera.main.GetComponent<CameraShake>().StartShake(0.5f, 3);
+		
 	}
 
 	private void OnCollisionExit2D(Collision2D other) {

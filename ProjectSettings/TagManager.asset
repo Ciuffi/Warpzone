@@ -10,6 +10,7 @@ TagManager:
   - Shadow
   - Spawner
   - Timer
+  - highscore
   layers:
   - Default
   - TransparentFX

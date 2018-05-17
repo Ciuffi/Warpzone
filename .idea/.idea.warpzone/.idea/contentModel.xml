@@ -8,6 +8,12 @@
           <e p="backgroundHandler.cs" t="Include" />
           <e p="CameraShake.cs" t="Include" />
           <e p="debugHandler.cs" t="Include" />
+          <e p="DeviceHandler.cs" t="Include" />
+          <e p="Menu" t="Include">
+            <e p="HighscoreMenuItem.cs" t="Include" />
+            <e p="ReturnToMenuItem.cs" t="Include" />
+            <e p="StartMenuItem.cs" t="Include" />
+          </e>
           <e p="ObstacleHandler.cs" t="Include" />
           <e p="PlayerHandler.cs" t="Include" />
           <e p="ShadowHandler.cs" t="Include" />

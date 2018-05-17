@@ -10,12 +10,14 @@ public class debugHandler : MonoBehaviour {
 		if (!Debug.isDebugBuild) {
 			gameObject.SetActive(false);
 		}
-
 		spawn = GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		GetComponent<Text>().text = "Dev Info: \nSpeed: " + spawn.Speed + "\nFrequency: " + spawn.SpawnFrequency;
+		GetComponent<Text>().text = "Device Name: " + SystemInfo.deviceName +
+		                            "\nDevice OS: " + SystemInfo.operatingSystem +
+		                            "\nSpeed: " + spawn.Speed + 
+		                            "\nFrequency: " + spawn.SpawnFrequency;
 	}
 }

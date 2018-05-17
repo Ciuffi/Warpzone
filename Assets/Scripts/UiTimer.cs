@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,5 +16,6 @@ public class UiTimer : MonoBehaviour {
 	void Update () {
 		Ticker += Time.deltaTime;
 		GetComponent<Text>().text = "Timer: " + (int) Ticker;
+		GameObject.FindGameObjectWithTag("highscore").GetComponent<Text>().text = "Highscore: " + GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHandler>().Highscore.ToString();
 	}
 }
