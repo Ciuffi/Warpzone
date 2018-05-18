@@ -17,7 +17,7 @@ public class EndCard : MonoBehaviour {
 		t.enabled = true;
 		t2.enabled = true;
 		if (higher) {
-			t.text = "nNew highscore\nScore " + (int) score;
+			t.text = "New highscore\nScore " + (int) score;
 		}
 		else {
 			t.text = "Score: " + (int)score + "\nHighscore: " + highscore;
