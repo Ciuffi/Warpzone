@@ -29,7 +29,7 @@ public class SpawnHandler : MonoBehaviour {
 				rando++;
 			}
 
-			GameObject obstacle = Instantiate(ObstaclePrefab, new Vector3(10, rando, 0), Quaternion.identity);
+			GameObject obstacle = Instantiate(ObstaclePrefab, new Vector3(12, rando, 0), Quaternion.identity);
 			obstacle.GetComponent<ObstacleHandler>().Spawn = this;
 			LiveObstacles.Add(obstacle);
 		}

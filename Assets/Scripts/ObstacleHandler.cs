@@ -19,7 +19,7 @@ public class ObstacleHandler : MonoBehaviour {
 		//move faster as the game progresses
 		transform.Translate(Vector2.left * Time.deltaTime * Spawn.Speed);
 		//destroy off camera
-		if (transform.position.x < -10) {
+		if (transform.position.x < -12) {
 			Spawn.LiveObstacles.Remove(gameObject);
 			Destroy(gameObject);
 		}

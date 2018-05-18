@@ -11,6 +11,7 @@ public class PlayerHandler : MonoBehaviour {
 	private bool _jumpable;
 	public float Height = 6;
 	public int Highscore;
+	private float _warpcooldown;
 
 	private bool _shorthop = false;
 	private bool _reset;
@@ -49,7 +50,9 @@ public class PlayerHandler : MonoBehaviour {
 		Warp();
 	}
 	private void Warp() {
+		if (_warpcooldown != 0f) return;
 		//Reverse the velocity with the gravity change.
+		_warpcooldown = 0.2f;
 		_rb2D.velocity *= Vector2.down;
 		//swap positions.
 		transform.position = _shadow.transform.position;
@@ -74,6 +77,13 @@ public class PlayerHandler : MonoBehaviour {
 		//reset game
 		if (_reset) {
 			_resettimer -= Time.deltaTime;
+		}
+
+		if (_warpcooldown > 0) {
+			_warpcooldown -= Time.deltaTime;
+		}
+		else {
+			_warpcooldown = 0;
 		}
 
 		if (_resettimer <= 0) {
