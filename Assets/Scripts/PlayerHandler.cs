@@ -82,7 +82,6 @@ public class PlayerHandler : MonoBehaviour {
 			_warpcooldown = 0;
 		}
 
-
 		//updates highscore
 		if (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker > Highscore) {
 			_newscore = true;
@@ -94,6 +93,7 @@ public class PlayerHandler : MonoBehaviour {
 			if (Input.anyKey) {
 				_reset = false;
 				ResetGame();
+				return;
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.Space)) {
@@ -116,6 +116,7 @@ public class PlayerHandler : MonoBehaviour {
 			if (Input.touches.Length > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
 				_reset = false;
 				ResetGame();
+				return;
 			}
 		}
 		if (Input.touches.Length > 0) {
