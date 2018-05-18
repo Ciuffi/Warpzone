@@ -148,7 +148,6 @@ public class PlayerHandler : MonoBehaviour {
 
 	private void Death() {
 		GetComponentInChildren<ParticleSystem>().Play();
-		InvisiblePlayer();
 		PlayerPrefs.SetInt("Highscore", Highscore);
 		GameObject.FindGameObjectWithTag("endcard").
 			GetComponent<EndCard>().
@@ -158,13 +157,15 @@ public class PlayerHandler : MonoBehaviour {
 		GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>().GameOver();
 		Camera.main.GetComponent<CameraShake>().StartShake(0.5f, 3);
 		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Pause = true;
-		
+		GetComponent<SpriteRenderer>().enabled = false;
+		GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = false;
 	}
 	public void ResetGame() {
 		if (Upsidedown) {
 			Invert();
 		}
-		InvisiblePlayer();
+		GetComponent<SpriteRenderer>().enabled = true;
+		GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = true;
 		//saves highscore permanently 
 		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Reset();
 		ResetPlayer();
@@ -176,17 +177,5 @@ public class PlayerHandler : MonoBehaviour {
 	private void ResetPlayer() {
 		transform.position = new Vector3(-7, 1, -01);
 		_jumpable = false;
-	}
-
-	private void InvisiblePlayer() {
-		if (GetComponent<SpriteRenderer>().enabled) {
-			GetComponent<SpriteRenderer>().enabled = false;
-			GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = false;
-		}
-		else {
-			GetComponent<SpriteRenderer>().enabled = true;
-			GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = true;
-
-		}
 	}
 }
