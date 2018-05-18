@@ -12,6 +12,7 @@ TagManager:
   - Timer
   - highscore
   - endcard
+  - continue
   layers:
   - Default
   - TransparentFX

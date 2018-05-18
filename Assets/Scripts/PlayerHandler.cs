@@ -28,6 +28,8 @@ public class PlayerHandler : MonoBehaviour {
 
 	//Inverts the map and warps the player.
 	private void Invert() {
+		if (_warpcooldown > 0f) return;
+		_warpcooldown = 0.1f;
 		//invert UI.
 		FindObjectOfType<Canvas>().GetComponent<UiInverter>().Invert();
 		//Shake Camera.
@@ -50,9 +52,7 @@ public class PlayerHandler : MonoBehaviour {
 		Warp();
 	}
 	private void Warp() {
-		if (_warpcooldown != 0f) return;
 		//Reverse the velocity with the gravity change.
-		_warpcooldown = 0.2f;
 		_rb2D.velocity *= Vector2.down;
 		//swap positions.
 		transform.position = _shadow.transform.position;
@@ -74,11 +74,7 @@ public class PlayerHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//reset game
-		if (_reset) {
-			_resettimer -= Time.deltaTime;
-		}
-
+		//0.1 cooldown for warp to avoid bugs
 		if (_warpcooldown > 0) {
 			_warpcooldown -= Time.deltaTime;
 		}
@@ -86,18 +82,20 @@ public class PlayerHandler : MonoBehaviour {
 			_warpcooldown = 0;
 		}
 
-		if (_resettimer <= 0) {
-			_reset = false;
-			_resettimer = 2;
-			ResetGame();
-		}
+
 		//updates highscore
 		if (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker > Highscore) {
 			_newscore = true;
 			Highscore = (int) GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker;
 		}
 		//Jump
-		#if UNITY_WEBGL	
+		#if UNITY_WEBGL
+		if (_reset) {
+			if (Input.anyKey) {
+				_reset = false;
+				ResetGame();
+			}
+		}
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			Jump();
 		}
@@ -114,6 +112,12 @@ public class PlayerHandler : MonoBehaviour {
 
 
 		#else
+		if (_reset) {
+			if (Input.touches.Length > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
+				_reset = false;
+				ResetGame();
+			}
+		}
 		if (Input.touches.Length > 0) {
 			foreach (Touch T in Input.touches) {
 				if (T.phase == TouchPhase.Began) {

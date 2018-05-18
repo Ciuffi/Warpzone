@@ -17,7 +17,8 @@ public class debugHandler : MonoBehaviour {
 	void Update () {
 		GetComponent<Text>().text = "Device Name: " + SystemInfo.deviceName +
 		                            "\nDevice OS: " + SystemInfo.operatingSystem +
-		                            "\nSpeed: " + spawn.Speed + 
-		                            "\nFrequency: " + spawn.SpawnFrequency;
+		                            "\nSpeed: " + spawn.Speed +
+		                            "\nFrequency: " + spawn.SpawnFrequency +
+		                            "\nVersion Number: " + Application.version;
 	}
 }
