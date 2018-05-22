@@ -1,29 +1,36 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour {
 	
 	private Rigidbody2D _rb2D;
-	public bool Upsidedown;
 	private GameObject[] _backgrounds;
 	private GameObject _shadow;
 	private bool _jumpable;
 	public float Height = 6;
 	public int Highscore;
+	public float GravDelay = 0.1f;
+	private float _gravtimer;
 	private float _warpcooldown;
-
 	private bool _shorthop = false;
 	private bool _reset;
 	private float _resettimer = 2;
-
+	private bool _upsidedown;
 	private bool _newscore;
+	private bool _falldelay;
+	private float _startgrav;
+	private float _maxjumpheight;
+	private float _maxjumpbuffer = 0.2f;
+	private Vector2 _jumpvelocity;
 	// Use this for initialization
 	void Start () {
 		_rb2D = GetComponent<Rigidbody2D>();
 		_backgrounds = GameObject.FindGameObjectsWithTag("Background");
 		_shadow = GameObject.FindGameObjectWithTag("Shadow");
 		Highscore = PlayerPrefs.GetInt("Highscore", Highscore);
+		_startgrav = _rb2D.gravityScale;
 	}
 
 	//Inverts the map and warps the player.
@@ -36,12 +43,12 @@ public class PlayerHandler : MonoBehaviour {
 		Camera.main.GetComponent<CameraShake>().StartShake(0.1f, 6);
 		
 		//Change gravity for flip.
-		if (Upsidedown) {
-			Upsidedown = false;
+		if (_upsidedown) {
+			_upsidedown = false;
 			Physics2D.gravity = new Vector2(0, -10);
 		}
 		else {
-			Upsidedown = true;
+			_upsidedown = true;
 			Physics2D.gravity = new Vector2(0, 10);
 		}
 		//Invert background colour.
@@ -64,12 +71,15 @@ public class PlayerHandler : MonoBehaviour {
 	private void Jump() {
 		if (!_jumpable) return;
 		float floatheight = Height;
-		//Inviert height if upsidedown
-		if (Upsidedown) {
+		//Invert height if upsidedown
+		if (_upsidedown) {
 			floatheight *= -1;
 		}
 		_shorthop = false;
+		_falldelay = true;
+		_maxjumpheight = JumpMax(Height);
 		_rb2D.AddForce(new Vector2(0,floatheight), ForceMode2D.Impulse);
+		
 	}
 	
 	// Update is called once per frame
@@ -86,6 +96,18 @@ public class PlayerHandler : MonoBehaviour {
 		if (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker > Highscore) {
 			_newscore = true;
 			Highscore = (int) GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker;
+		}
+
+		if ( !_upsidedown && transform.position.y > _maxjumpheight || _upsidedown && transform.position.y < _maxjumpheight) {
+			FallDelay();
+		}
+		if (_gravtimer < 0) {
+			_gravtimer = 0;
+			_rb2D.gravityScale = _startgrav;
+			_rb2D.velocity = _jumpvelocity;
+		}
+		else if (_gravtimer > 0){
+			_gravtimer -= Time.deltaTime;
 		}
 		//Jump
 		#if UNITY_WEBGL
@@ -107,7 +129,7 @@ public class PlayerHandler : MonoBehaviour {
 	if ((!(transform.position.y > 2) && !(transform.position.y < -2)) || Input.GetKey(KeyCode.Space)) return;
 		if (_rb2D.velocity.y > 0 && !Upsidedown || _rb2D.velocity.y < 0 && Upsidedown)
 		{
-			_rb2D.velocity *= new Vector2(1, 0);
+			FallDelay();
 		}
 
 
@@ -139,9 +161,24 @@ public class PlayerHandler : MonoBehaviour {
 		//stop jump short if jump isn't held
 		if (!_shorthop) return;
 		if (!(transform.position.y > 2) && !(transform.position.y < -2))return;
-		if ((!(_rb2D.velocity.y > 0) || Upsidedown) && (!(_rb2D.velocity.y < 0) || !Upsidedown)) return;
-		_rb2D.velocity *= new Vector2(1, 0);
+		if ((!(_rb2D.velocity.y > 0) || _upsidedown) && (!(_rb2D.velocity.y < 0) || !_upsidedown)) return;
+		FallDelay();
 		#endif
+	}
+
+	private float JumpMax(float height) {
+		float g = _rb2D.gravityScale * Physics2D.gravity.magnitude;
+		float v0 = height / _rb2D.mass; // converts the jumpForce to an initial velocity
+		if (!_upsidedown) return transform.position.y + (v0 * v0)/(2*g) -_maxjumpbuffer;
+			return transform.position.y - (v0 * v0)/(2*g) + _maxjumpbuffer;
+	}
+	private void FallDelay() {
+		if (!_falldelay) return;
+		_jumpvelocity = _rb2D.velocity * new Vector2(1, 0);
+		_rb2D.gravityScale = 0;
+		_rb2D.velocity = Vector2.zero;
+		_gravtimer = GravDelay;
+		_falldelay = false;
 	}
 
 	private void OnCollisionEnter2D(Collision2D other) {
@@ -149,8 +186,8 @@ public class PlayerHandler : MonoBehaviour {
 		_jumpable = true;
 		//Collision code which allows you to jump on top of obstacles
 		if (!other.gameObject.CompareTag("Obstacle")) return;
-		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y < transform.position.y && !Upsidedown) 
-		    || (other.transform.position.y > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && Upsidedown)) 
+		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y < transform.position.y && !_upsidedown) 
+		    || (other.transform.position.y > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && _upsidedown)) 
 			return;
 		//If it hasn't returned, you died.
 		_reset = true;
@@ -176,7 +213,7 @@ public class PlayerHandler : MonoBehaviour {
 		GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = false;
 	}
 	public void ResetGame() {
-		if (Upsidedown) {
+		if (_upsidedown) {
 			Invert();
 		}
 		GetComponent<SpriteRenderer>().enabled = true;
@@ -192,5 +229,6 @@ public class PlayerHandler : MonoBehaviour {
 	private void ResetPlayer() {
 		transform.position = new Vector3(-7, 1, -01);
 		_jumpable = false;
+		_rb2D.gravityScale = _startgrav;
 	}
 }

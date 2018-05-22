@@ -5727,9 +5727,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ffb1f3e1a39a42dc90867d874c8adfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Upsidedown: 0
   Height: 6
   Highscore: 0
+  GravDelay: 0.15
 --- !u!50 &1468183329
 Rigidbody2D:
   serializedVersion: 4
