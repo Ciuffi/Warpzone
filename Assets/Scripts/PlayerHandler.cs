@@ -9,6 +9,7 @@ public class PlayerHandler : MonoBehaviour {
 	private GameObject[] _backgrounds;
 	private GameObject _shadow;
 	private bool _jumpable;
+	public GameObject WarpParticles;
 	public float Height = 6;
 	public int Highscore;
 	public float GravDelay = 0.1f;
@@ -62,6 +63,7 @@ public class PlayerHandler : MonoBehaviour {
 		//Reverse the velocity with the gravity change.
 		_rb2D.velocity *= Vector2.down;
 		//swap positions.
+		Instantiate(WarpParticles, transform.position, Quaternion.identity);
 		transform.position = _shadow.transform.position;
 		//Flip the sprites.
 		GetComponent<SpriteRenderer>().flipY = !GetComponent<SpriteRenderer>().flipY;
