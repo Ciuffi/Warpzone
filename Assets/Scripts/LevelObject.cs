@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Analytics;
 
 public class LevelObject {
@@ -10,6 +11,7 @@ public class LevelObject {
         private const float Pos5 = 5.6f;
         private readonly List<List<float>> _level;
         private int _addDelay;
+        private readonly SpawnHandler _spawner;
 
         public void SetDelay(int delay) {
                 _addDelay = delay;
@@ -123,7 +125,8 @@ public class LevelObject {
                 }
                 AddDelay();
         }
-        public void AddWhiteSpace(float seconds) {
+
+        private void AddWhiteSpace(float seconds) {
                 for (int i = 0; i < seconds / 0.3; i++) {
                         _level.Add(new List<float>());
                 }

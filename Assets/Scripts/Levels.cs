@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 
 public class Levels {
-    public List<LevelObject> Lol;
     public LevelObject Beginner;
     public LevelObject Beginnerdown;
     public Levels() {
@@ -29,7 +28,6 @@ public class Levels {
     }
 
     private void buildRandomLine(LevelObject l) {
-        Debug.Log("adding line...");
         int rand = Random.Range(0, 2);
         int randlength = Random.Range(0, 8);
         int randobstacle = Random.Range(1, 3);
@@ -45,7 +43,7 @@ public class Levels {
                     l.AddTopBlockLine(randobstacle);
                     break;
             }
-            Debug.Log("adding random");
+
             l.AddRandomToLast();
         }
 
@@ -53,10 +51,8 @@ public class Levels {
 
     private void PickRandomBlock(LevelObject l) {
         int rand = Random.Range(0, 6);
-        Debug.Log("adding random block");
         switch (rand) {
             case 0:
-                Debug.Log("added bottom block");
                 l.AddBottomBlock();
                 break;
             case 1:
@@ -84,13 +80,13 @@ public class Levels {
         LevelObject l = new LevelObject();
         l.SetDelay(delay);
         for (int i = 0; i < length; i++) {
-            Debug.Log("for loop!");
             int rand = Random.Range(0, 16);
-            if (rand < 15) {
+            if (rand < 13) {
                 PickRandomBlock(l);
             }
             else {
                 l.SetDelay(0);
+                buildRandomLine(l);
                 buildRandomLine(l);
                 l.SetDelay(delay);
             }

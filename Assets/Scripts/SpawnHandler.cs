@@ -11,7 +11,7 @@ public class SpawnHandler : MonoBehaviour {
 	public GameObject ObstaclePrefab;
 	public List<GameObject> LiveObstacles;
 	public float Speed = 6;
-	public float TimePerSpeedup = 2;
+	public float TimePerSpeedup = 1.5f;
 	private float _speedtimer;
 	private double _spawntimer = 0.1;
 	public float SpawnFrequency = 0;
@@ -20,7 +20,6 @@ public class SpawnHandler : MonoBehaviour {
 	private LevelObject _down;
 	private Levels _levelbook;
 	public bool Tutorial;
-
 	
 	void Start() {
 		LiveObstacles = new List<GameObject>();
@@ -44,10 +43,11 @@ public class SpawnHandler : MonoBehaviour {
 			_down = _levelbook.Beginnerdown;
 		}
 		else {
-			_up = _levelbook.BuildRandomLevel(30, 1);
-			_down = _levelbook.BuildRandomLevel(30, 1);
+			_up = _levelbook.BuildRandomLevel(30, 5);
+			_down = _levelbook.BuildRandomLevel(30, 5);
 		}
 		_spawntimer = 0.1;
+		SpawnFrequency = 0.25f;
 		Speed = 3;
 		Pause = true;
 		_levelindex = 0;
@@ -59,6 +59,7 @@ public class SpawnHandler : MonoBehaviour {
 		_speedtimer -= Time.deltaTime;
 		if (_speedtimer <= 0 && Speed < 10) {
 			Speed += 0.2f;
+			if (SpawnFrequency >= 0.05) SpawnFrequency -= 0.015f;
 			_speedtimer = TimePerSpeedup;
 		}
 		_spawntimer -= Time.deltaTime;
@@ -73,7 +74,7 @@ public class SpawnHandler : MonoBehaviour {
 		if (_levelindex >= l.GetLevel().Count) {
 			Tutorial = false;
 			_levelindex = 0;
-			_up = _levelbook.BuildRandomLevel(30, 1);
+			_up = _levelbook.BuildRandomLevel(30, 5);
 		}
 		foreach (float f in l.GetLevel()[_levelindex]) {
 			GameObject obstacle = Instantiate(ObstaclePrefab, new Vector3(12, f, 0), Quaternion.identity);
@@ -85,7 +86,7 @@ public class SpawnHandler : MonoBehaviour {
 	private void SpawnUpsideDown(LevelObject l) {
 		if (_upsidedownlevelindex >= l.GetLevel().Count) {
 			_upsidedownlevelindex = 0;
-			_down = _levelbook.BuildRandomLevel(30, 1);
+			_down = _levelbook.BuildRandomLevel(30, 5);
 		}
 		foreach (float f in l.GetLevel()[_upsidedownlevelindex]) {
 			GameObject obstacle = Instantiate(ObstaclePrefab, new Vector3(12, -f, 0), Quaternion.identity);
