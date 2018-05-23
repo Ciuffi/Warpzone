@@ -19,7 +19,7 @@ public class debugHandler : MonoBehaviour {
 		                            "\nDevice OS: " + SystemInfo.operatingSystem +
 		                            "\nSpeed: " + spawn.Speed +
 		                            "\nSpawn Freq: " + spawn.SpawnFrequency +
-		                            "\nRandomSpawning: " + !spawn.Tutorial +
+		                            "\nTutorial: " + spawn.Tutorial +
 		                            "\nVersion Number: " + Application.version;
 	}
 }

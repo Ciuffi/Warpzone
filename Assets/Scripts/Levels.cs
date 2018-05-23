@@ -43,7 +43,9 @@ public class Levels {
                     l.AddTopBlockLine(randobstacle);
                     break;
             }
-
+            if (Random.Range(0, 15) > 10) {
+                l.AddFloorBlockToLast(randobstacle);
+            }
             l.AddRandomToLast();
         }
 

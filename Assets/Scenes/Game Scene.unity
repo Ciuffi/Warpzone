@@ -712,35 +712,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 1813904709933298, guid: 33d7c50a804f3b94fa2d50f81a5338b1, type: 2}
-      propertyPath: m_TagString
-      value: Spawner
-      objectReference: {fileID: 0}
-    - target: {fileID: 1813904709933298, guid: 33d7c50a804f3b94fa2d50f81a5338b1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114019421818392466, guid: 33d7c50a804f3b94fa2d50f81a5338b1,
-        type: 2}
-      propertyPath: ObstaclePrefab
-      value: 
-      objectReference: {fileID: 1406657828410458, guid: ea0180c5518fa46739edf3d2e2761df8,
-        type: 2}
-    - target: {fileID: 114019421818392466, guid: 33d7c50a804f3b94fa2d50f81a5338b1,
-        type: 2}
-      propertyPath: Speed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114019421818392466, guid: 33d7c50a804f3b94fa2d50f81a5338b1,
-        type: 2}
-      propertyPath: SpawnFrequency
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114019421818392466, guid: 33d7c50a804f3b94fa2d50f81a5338b1,
-        type: 2}
-      propertyPath: TimePerSpeedup
-      value: 1.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33d7c50a804f3b94fa2d50f81a5338b1, type: 2}
   m_IsPrefabParent: 0

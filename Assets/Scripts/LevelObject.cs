@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Analytics;
 
 public class LevelObject {
+        private const float Pos0 = 0f;
         private const float Pos1 = 0.8f;
         private const float Pos2 = 1.8f;
         private const float Pos3 = 3.2f;
@@ -36,6 +37,11 @@ public class LevelObject {
         public void AddRandomToLast() {
                 _level[_level.Count - 1].Add(RandomPosition());
         }
+        public void AddFloorBlockToLast(float seconds) {
+                for (int i = 1; i < seconds / 0.3f; i++) {
+                        _level[_level.Count - i].Add(Pos0);
+                }
+        }
         public LevelObject() {
                 _level = new List<List<float>>();
         }
@@ -44,6 +50,8 @@ public class LevelObject {
                 _level.Add(new List<float>(blocks));
                 AddDelay();
         }
+
+
 
         public List<List<float>> GetLevel() {
                 return _level;

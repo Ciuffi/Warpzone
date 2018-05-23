@@ -206,10 +206,12 @@ public class PlayerHandler : MonoBehaviour {
 
 	private void OnCollisionEnter2D(Collision2D other) {
 		//Collision code which allows you to jump on top of obstacles
-		if (!other.gameObject.CompareTag("Obstacle")) return;
+		if (other.gameObject.CompareTag("Floor")) return;
+		if (other.gameObject.CompareTag("Obstacle")) {
 		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y - 0.03f< transform.position.y && !_upsidedown) 
 		    || (other.transform.position.y + 0.03f > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && _upsidedown)) 
 			return;
+		}
 		//If it hasn't returned, you died.
 		_reset = true;
 		Death();

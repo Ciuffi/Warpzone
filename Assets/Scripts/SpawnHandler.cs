@@ -9,6 +9,7 @@ public class SpawnHandler : MonoBehaviour {
 	private int _levelindex;
 	private int _upsidedownlevelindex;
 	public GameObject ObstaclePrefab;
+	public GameObject FloorObstaclePrefab;
 	public List<GameObject> LiveObstacles;
 	public float Speed = 6;
 	public float TimePerSpeedup = 1.5f;
@@ -59,7 +60,7 @@ public class SpawnHandler : MonoBehaviour {
 		_speedtimer -= Time.deltaTime;
 		if (_speedtimer <= 0 && Speed < 10) {
 			Speed += 0.2f;
-			if (SpawnFrequency >= 0.05) SpawnFrequency -= 0.015f;
+			if (SpawnFrequency >= 0.1) SpawnFrequency -= 0.010f;
 			_speedtimer = TimePerSpeedup;
 		}
 		_spawntimer -= Time.deltaTime;
@@ -77,7 +78,8 @@ public class SpawnHandler : MonoBehaviour {
 			_up = _levelbook.BuildRandomLevel(30, 5);
 		}
 		foreach (float f in l.GetLevel()[_levelindex]) {
-			GameObject obstacle = Instantiate(ObstaclePrefab, new Vector3(12, f, 0), Quaternion.identity);
+			var obstacle = f == 0f ? Instantiate(FloorObstaclePrefab, new Vector3(12, f, 0), Quaternion.identity) 
+				: Instantiate(ObstaclePrefab, new Vector3(12, f, 0), Quaternion.identity);
 			obstacle.GetComponent<ObstacleHandler>().Spawn = this;
 			LiveObstacles.Add(obstacle);
 		}
@@ -89,7 +91,8 @@ public class SpawnHandler : MonoBehaviour {
 			_down = _levelbook.BuildRandomLevel(30, 5);
 		}
 		foreach (float f in l.GetLevel()[_upsidedownlevelindex]) {
-			GameObject obstacle = Instantiate(ObstaclePrefab, new Vector3(12, -f, 0), Quaternion.identity);
+			var obstacle = f == 0f ? Instantiate(FloorObstaclePrefab, new Vector3(12, f, 0), Quaternion.identity) 
+				: Instantiate(ObstaclePrefab, new Vector3(12, -f, 0), Quaternion.identity);
 			obstacle.GetComponent<ObstacleHandler>().Spawn = this;
 			LiveObstacles.Add(obstacle);
 		}
