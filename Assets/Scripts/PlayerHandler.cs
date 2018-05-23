@@ -81,7 +81,6 @@ public class PlayerHandler : MonoBehaviour {
 		_falldelay = true;
 		_maxjumpheight = JumpMax(Height);
 		_rb2D.AddForce(new Vector2(0,floatheight), ForceMode2D.Impulse);
-		
 	}
 	
 	// Update is called once per frame
