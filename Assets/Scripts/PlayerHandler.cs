@@ -12,17 +12,17 @@ public class PlayerHandler : MonoBehaviour {
 	public GameObject WarpParticles;
 	public float Height = 6;
 	public int Highscore;
-	public float GravDelay = 0.1f;
+	public float GravDelay = 0.05f;
 	private float _gravtimer;
 	private float _warpcooldown;
 	private bool _shorthop = false;
 	private bool _reset;
-	private float _resettimer = 2;
 	private bool _upsidedown;
 	private bool _newscore;
 	private bool _falldelay;
 	private float _startgrav;
 	private float _maxjumpheight;
+	private float _maxShortHopHeight;
 	private float _maxjumpbuffer = 0.2f;
 	private Vector2 _jumpvelocity;
 	// Use this for initialization
@@ -62,8 +62,10 @@ public class PlayerHandler : MonoBehaviour {
 	private void Warp() {
 		//Reverse the velocity with the gravity change.
 		_rb2D.velocity *= Vector2.down;
-		//swap positions.
+		//Create warp particles in both shadow and current position
 		Instantiate(WarpParticles, transform.position, Quaternion.identity);
+		Instantiate(WarpParticles, _shadow.transform.position, Quaternion.identity);
+		//swap positions.
 		transform.position = _shadow.transform.position;
 		//Flip the sprites.
 		GetComponent<SpriteRenderer>().flipY = !GetComponent<SpriteRenderer>().flipY;
@@ -71,17 +73,24 @@ public class PlayerHandler : MonoBehaviour {
 	}
 
 	private void Jump() {
+		//if you can't jump, return
 		if (!_jumpable) return;
 		float floatheight = Height;
+		//sets the minimum jump height for a short jump
+		_maxShortHopHeight = transform.position.y + 1;
 		//Invert height if upsidedown
 		if (_upsidedown) {
+			_maxShortHopHeight = transform.position.y - 1;
 			floatheight *= -1;
 		}
 		_shorthop = false;
+		//allow a small delay before falling
 		_falldelay = true;
+		//calculate the max height of a max power jump
 		_maxjumpheight = JumpMax(Height);
+		//jump
 		_rb2D.AddForce(new Vector2(0,floatheight), ForceMode2D.Impulse);
-		
+
 	}
 	
 	// Update is called once per frame
@@ -94,15 +103,20 @@ public class PlayerHandler : MonoBehaviour {
 			_warpcooldown = 0;
 		}
 
+		//if the character is touching the ground, you can jump
+		_jumpable = CheckIfGrounded();
+
 		//updates highscore
 		if (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker > Highscore) {
 			_newscore = true;
 			Highscore = (int) GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker;
 		}
 
+		//adds a small delay if you've reached your max jump height
 		if ( !_upsidedown && transform.position.y > _maxjumpheight || _upsidedown && transform.position.y < _maxjumpheight) {
 			FallDelay();
 		}
+		//Reset gravity and velocity after falldelay is over
 		if (_gravtimer < 0) {
 			_gravtimer = 0;
 			_rb2D.gravityScale = _startgrav;
@@ -128,7 +142,7 @@ public class PlayerHandler : MonoBehaviour {
 			Invert();
 		}
 		
-	if ((!(transform.position.y > 2) && !(transform.position.y < -2)) || Input.GetKey(KeyCode.Space)) return;
+	if ((!(transform.position.y > _maxShortHopHeight) && !(transform.position.y < -_maxShortHopHeight)) || Input.GetKey(KeyCode.Space)) return;
 		if (_rb2D.velocity.y > 0 && !Upsidedown || _rb2D.velocity.y < 0 && Upsidedown)
 		{
 			FallDelay();
@@ -136,6 +150,7 @@ public class PlayerHandler : MonoBehaviour {
 
 
 		#else
+		//Tap to reset game on end screen
 		if (_reset) {
 			if (Input.touches.Length > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
 				_reset = false;
@@ -143,6 +158,7 @@ public class PlayerHandler : MonoBehaviour {
 				return;
 			}
 		}
+		//check all inputs for multitouch, left side of screen for jump, right for warp.
 		if (Input.touches.Length > 0) {
 			foreach (Touch T in Input.touches) {
 				if (T.phase == TouchPhase.Began) {
@@ -162,18 +178,23 @@ public class PlayerHandler : MonoBehaviour {
 
 		//stop jump short if jump isn't held
 		if (!_shorthop) return;
-		if (!(transform.position.y > 2) && !(transform.position.y < -2))return;
+		//don't stop jumping if you haven't reached the minimum height
+		if (_upsidedown && !(transform.position.y < _maxShortHopHeight)) return;
+		if (!_upsidedown && !(transform.position.y > _maxShortHopHeight)) return;
+		//make sure you're moving up when you quit jumping
 		if ((!(_rb2D.velocity.y > 0) || _upsidedown) && (!(_rb2D.velocity.y < 0) || !_upsidedown)) return;
 		FallDelay();
 		#endif
 	}
 
+	//Calculates the max jump height from an impulse
 	private float JumpMax(float height) {
 		float g = _rb2D.gravityScale * Physics2D.gravity.magnitude;
 		float v0 = height / _rb2D.mass; // converts the jumpForce to an initial velocity
 		if (!_upsidedown) return transform.position.y + (v0 * v0)/(2*g) -_maxjumpbuffer;
 			return transform.position.y - (v0 * v0)/(2*g) + _maxjumpbuffer;
 	}
+	//Saves velocity and sets gravity to 0 for a small delay before falling
 	private void FallDelay() {
 		if (!_falldelay) return;
 		_jumpvelocity = _rb2D.velocity * new Vector2(1, 0);
@@ -184,30 +205,36 @@ public class PlayerHandler : MonoBehaviour {
 	}
 
 	private void OnCollisionEnter2D(Collision2D other) {
-		//lets you jump if you're touching something
-		_jumpable = true;
 		//Collision code which allows you to jump on top of obstacles
-		if (!other.gameObject.CompareTag("Obstacle")) return;
-		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y < transform.position.y && !_upsidedown) 
-		    || (other.transform.position.y > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && _upsidedown)) 
+		if (other.gameObject.CompareTag("Floor")) return;
+		if (other.gameObject.CompareTag("Obstacle")) {
+		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y - 0.03f< transform.position.y && !_upsidedown) 
+		    || (other.transform.position.y + 0.03f > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && _upsidedown)) 
 			return;
+		}
 		//If it hasn't returned, you died.
 		_reset = true;
 		Death();
 	}
-	private void OnCollisionExit2D(Collision2D other) {
-		//stops you from jumping while in the air.
-		_jumpable = false;
+	private bool CheckIfGrounded() {
+		//We raycast down 1 pixel from this position to check for a collider
+		var hits = Physics2D.RaycastAll(transform.position, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 1f);
+		//if a collider was hit, we are grounded
+		return hits.Length > 1;
 	}
 
 	private void Death() {
+		//play death particles
 		GetComponentInChildren<ParticleSystem>().Play();
+		//save new high score
 		PlayerPrefs.SetInt("Highscore", Highscore);
+		//open up the end card
 		GameObject.FindGameObjectWithTag("endcard").
 			GetComponent<EndCard>().
 			On(GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker, 
 				Highscore, _newscore);
 		_newscore = false;
+		//reset other componenets and shake camera.
 		GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnHandler>().GameOver();
 		Camera.main.GetComponent<CameraShake>().StartShake(0.5f, 3);
 		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Pause = true;
@@ -215,6 +242,7 @@ public class PlayerHandler : MonoBehaviour {
 		GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = false;
 	}
 	public void ResetGame() {
+		//resets components
 		if (_upsidedown) {
 			Invert();
 		}

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114019421818392466}
   m_Layer: 0
   m_Name: Enemy Spawner
-  m_TagString: Untagged
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1813904709933298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0.40958455}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,6 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f130361ade3074c8f7f4bdff93bc70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObstaclePrefab: {fileID: 0}
+  ObstaclePrefab: {fileID: 1406657828410458, guid: ea0180c5518fa46739edf3d2e2761df8,
+    type: 2}
+  FloorObstaclePrefab: {fileID: 1986525528873582, guid: 0942bb0575803834098b92b0ec3e70af,
+    type: 2}
   LiveObstacles: []
-  SpawnedPerTick: 6
+  Speed: 3
+  TimePerSpeedup: 1.5
+  SpawnFrequency: 0.3
+  Pause: 0
+  Tutorial: 0
