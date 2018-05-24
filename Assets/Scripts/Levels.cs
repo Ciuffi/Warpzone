@@ -82,15 +82,18 @@ public class Levels {
         LevelObject l = new LevelObject();
         l.SetDelay(delay);
         for (int i = 0; i < length; i++) {
-            int rand = Random.Range(0, 16);
+            int rand = Random.Range(0, 20);
             if (rand < 13) {
                 PickRandomBlock(l);
             }
-            else {
+            else if (rand > 13 & rand < 16){
                 l.SetDelay(0);
                 buildRandomLine(l);
-                buildRandomLine(l);
                 l.SetDelay(delay);
+            }
+            else {
+                Debug.Log("adding floorblock");
+                l.AddFloorBlockToLast(1);
             }
         }
         return l;
