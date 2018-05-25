@@ -92,8 +92,7 @@ public class Levels {
                 l.SetDelay(delay);
             }
             else {
-                Debug.Log("adding floorblock");
-                l.AddFloorBlockToLast(1);
+                l.AddFloorBlockToLast(0.6f);
             }
         }
         return l;
