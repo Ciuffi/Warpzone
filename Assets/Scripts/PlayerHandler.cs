@@ -32,6 +32,9 @@ public class PlayerHandler : MonoBehaviour {
 		_shadow = GameObject.FindGameObjectWithTag("Shadow");
 		Highscore = PlayerPrefs.GetInt("Highscore", Highscore);
 		_startgrav = _rb2D.gravityScale;
+		_upsidedown = false;
+		Physics2D.gravity = new Vector2(0, -10);
+
 	}
 
 	//Inverts the map and warps the player.
@@ -143,7 +146,7 @@ public class PlayerHandler : MonoBehaviour {
 		}
 		
 	if ((!(transform.position.y > _maxShortHopHeight) && !(transform.position.y < -_maxShortHopHeight)) || Input.GetKey(KeyCode.Space)) return;
-		if (_rb2D.velocity.y > 0 && !Upsidedown || _rb2D.velocity.y < 0 && Upsidedown)
+		if (_rb2D.velocity.y > 0 && !_upsidedown || _rb2D.velocity.y < 0 && _upsidedown)
 		{
 			FallDelay();
 		}

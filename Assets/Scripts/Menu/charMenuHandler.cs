@@ -19,7 +19,6 @@ public class charMenuHandler : MonoBehaviour {
 		GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
 		Instantiate(WarpParticleout, transform.position, Quaternion.identity);
 		_timer = _warptimer;
-		Debug.Log("telein");
 	}
 	
 	// Update is called once per frame
@@ -29,7 +28,6 @@ public class charMenuHandler : MonoBehaviour {
 			FindObjectOfType<UiInverter>().Invert();
 			GameObject p = Instantiate(WarpParticlein, transform.position, Quaternion.identity);
 			_timer = 0;
-			Debug.Log("timerup");
 		}
 		else if (_timer > 0){
 			_timer -= Time.deltaTime;

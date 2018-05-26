@@ -51,6 +51,8 @@ public class SpawnHandler : MonoBehaviour {
 		SpawnFrequency = 0.25f;
 		Speed = 3;
 		Pause = true;
+		_speedtimer = TimePerSpeedup;
+		_spawntimer = +SpawnFrequency;
 		_levelindex = 0;
 		_upsidedownlevelindex = 0;
 	}
