@@ -39,6 +39,7 @@ public class LevelObject {
         }
         public void AddFloorBlockToLast(float seconds) {
                 for (int i = 1; i < seconds / 0.3f; i++) {
+                        if (_level.Count < i) break;
                         _level[_level.Count - i].Add(Pos0);
                 }
         }
