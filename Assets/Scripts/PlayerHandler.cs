@@ -216,12 +216,11 @@ public class PlayerHandler : MonoBehaviour {
 			return;
 		}
 		//If it hasn't returned, you died.
-		_reset = true;
 		Death();
 	}
 	private bool CheckIfGrounded() {
 		//We raycast down 1 pixel from this position to check for a collider
-		var hits = Physics2D.RaycastAll(transform.position, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 1f);
+		var hits = Physics2D.RaycastAll(transform.position, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 1.2f);
 		//if a collider was hit, we are grounded
 		return hits.Length > 1;
 	}
@@ -243,12 +242,14 @@ public class PlayerHandler : MonoBehaviour {
 		GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Pause = true;
 		GetComponent<SpriteRenderer>().enabled = false;
 		GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = false;
+		_reset = true;
 	}
 	public void ResetGame() {
 		//resets components
 		if (_upsidedown) {
 			Invert();
 		}
+		Debug.Log("reset");
 		GetComponent<SpriteRenderer>().enabled = true;
 		GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = true;
 		//saves highscore permanently 

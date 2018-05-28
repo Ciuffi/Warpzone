@@ -29,6 +29,7 @@ public class SpawnHandler : MonoBehaviour {
 		Tutorial = true;
 		_up = _levelbook.Beginner;
 		_down = _levelbook.Beginnerdown;
+		Speed = 4;
 	}
 	
 
@@ -49,7 +50,7 @@ public class SpawnHandler : MonoBehaviour {
 		}
 		_spawntimer = 0.1;
 		SpawnFrequency = 0.25f;
-		Speed = 3;
+		Speed = 4;
 		Pause = true;
 		_speedtimer = TimePerSpeedup;
 		_spawntimer = +SpawnFrequency;
