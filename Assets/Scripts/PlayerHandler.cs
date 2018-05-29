@@ -5,26 +5,30 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour {
 	
+	//Gameobjects
 	private Rigidbody2D _rb2D;
 	private GameObject[] _backgrounds;
 	private GameObject _shadow;
-	private bool _jumpable;
 	public GameObject WarpParticles;
+	//jumping
+	private bool _jumpable;
 	public float Height = 6;
-	public int Highscore;
-	public float GravDelay = 0.05f;
-	private float _gravtimer;
-	private float _warpcooldown;
 	private bool _shorthop = false;
-	private bool _reset;
-	private bool _upsidedown;
-	private bool _newscore;
+	public float GravDelay = 0.05f;	
+	private float _gravtimer;
 	private bool _falldelay;
 	private float _startgrav;
 	private float _maxjumpheight;
 	private float _maxShortHopHeight;
 	private float _maxjumpbuffer = 0.2f;
 	private Vector2 _jumpvelocity;
+	//Warping
+	private float _warpcooldown;
+	//Score/game settings
+	public int Highscore;
+	private bool _reset;
+	private bool _upsidedown;
+	private bool _newscore;
 	// Use this for initialization
 	void Start () {
 		_rb2D = GetComponent<Rigidbody2D>();

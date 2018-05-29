@@ -258,7 +258,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.2980123
+  orthographic size: 4.9292192
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -730,6 +730,11 @@ Prefab:
     - target: {fileID: 4477839570417422, guid: 33d7c50a804f3b94fa2d50f81a5338b1, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114019421818392466, guid: 33d7c50a804f3b94fa2d50f81a5338b1,
+        type: 2}
+      propertyPath: SpawnFrequency
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33d7c50a804f3b94fa2d50f81a5338b1, type: 2}
@@ -5731,8 +5736,8 @@ MonoBehaviour:
   WarpParticles: {fileID: 1795616713511924, guid: 5306a8186d068c14891bccdd4e06c4fc,
     type: 2}
   Height: 6
-  Highscore: 0
   GravDelay: 0.1
+  Highscore: 0
 --- !u!50 &1468183329
 Rigidbody2D:
   serializedVersion: 4

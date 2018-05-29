@@ -51,11 +51,29 @@ public class Levels {
 
     }
 
-    private void PickRandomBlock(LevelObject l) {
-        int rand = Random.Range(0, 6);
+    private void PickRandomSimpleBlock(LevelObject l) {
+        int rand = Random.Range(0, 3);
         switch (rand) {
             case 0:
                 l.AddBottomBlock();
+                break;
+            case 1:
+                l.AddMiddleBlock();
+                break;
+            case 2:
+                l.AddTopBlock();
+                break;
+            case 3:
+                l.AddWall();
+                break;
+        }
+    }
+
+    private void PickRandomComplexBlock(LevelObject l) {
+        int rand = Random.Range(0, 2);
+        switch (rand) {
+            case 0:
+                l.AddTightSqueeze();
                 break;
             case 1:
                 l.AddHighJump();
@@ -63,18 +81,7 @@ public class Levels {
             case 2:
                 l.AddHighTightSqueeze();
                 break;
-            case 3:
-                l.AddMiddleBlock();
-                break;
-            case 4:
-                l.AddTightSqueeze();
-                break;
-            case 5:
-                l.AddTopBlock();
-                break;
-            case 6:
-                l.AddWall();
-                break;
+
         }
     }
 
@@ -83,8 +90,11 @@ public class Levels {
         l.SetDelay(delay);
         for (int i = 0; i < length; i++) {
             int rand = Random.Range(0, 20);
-            if (rand < 13) {
-                PickRandomBlock(l);
+            if (rand < 3) {
+                PickRandomSimpleBlock(l);
+            }
+            else if (rand > 2 && rand < 14) {
+                PickRandomComplexBlock(l);
             }
             else if (rand > 13 & rand < 16){
                 l.SetDelay(0);

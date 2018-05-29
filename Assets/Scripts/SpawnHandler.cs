@@ -6,30 +6,34 @@ using UnityEditor;
 using UnityEngine;
 
 public class SpawnHandler : MonoBehaviour {
-	private int _levelindex;
-	private int _upsidedownlevelindex;
+	//Gameobjects
 	public GameObject ObstaclePrefab;
 	public GameObject FloorObstaclePrefab;
 	public List<GameObject> LiveObstacles;
-	public float Speed = 6;
+	private LevelObject _up;
+	private LevelObject _down;
+	//Speed/spawning
+	public float Speed;
 	public float TimePerSpeedup = 1.5f;
 	private float _speedtimer;
 	private double _spawntimer = 0.1;
 	public float SpawnFrequency = 0;
+	private float _startFrequency;
+	//Level handling
+	private int _levelindex;
+	private int _upsidedownlevelindex;
 	public bool Pause;
-	private LevelObject _up;
-	private LevelObject _down;
 	private Levels _levelbook;
 	public bool Tutorial;
 	
 	void Start() {
 		LiveObstacles = new List<GameObject>();
 		_speedtimer = TimePerSpeedup;
+		_startFrequency = SpawnFrequency;
 		_levelbook = new Levels();
 		Tutorial = true;
 		_up = _levelbook.Beginner;
 		_down = _levelbook.Beginnerdown;
-		Speed = 4;
 	}
 	
 
@@ -49,7 +53,7 @@ public class SpawnHandler : MonoBehaviour {
 			_down = _levelbook.BuildRandomLevel(30, 5);
 		}
 		_spawntimer = 0.1;
-		SpawnFrequency = 0.25f;
+		SpawnFrequency =_startFrequency;
 		Speed = 4;
 		Pause = true;
 		_speedtimer = TimePerSpeedup;
@@ -63,7 +67,7 @@ public class SpawnHandler : MonoBehaviour {
 		_speedtimer -= Time.deltaTime;
 		if (_speedtimer <= 0 && Speed < 10) {
 			Speed += 0.2f;
-			if (SpawnFrequency >= 0.1) SpawnFrequency -= 0.010f;
+			if (SpawnFrequency >= 0.1) SpawnFrequency -= 0.015f;
 			_speedtimer = TimePerSpeedup;
 		}
 		_spawntimer -= Time.deltaTime;
