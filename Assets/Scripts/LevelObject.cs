@@ -9,7 +9,6 @@ public class LevelObject {
         private const float Pos2 = 1.8f;
         private const float Pos3 = 3.2f;
         private const float Pos4 = 4.4f;
-        private const float Pos5 = 5.6f;
         private readonly List<List<float>> _level;
         private int _addDelay;
         private readonly SpawnHandler _spawner;
@@ -30,7 +29,6 @@ public class LevelObject {
                         case 1: return Pos2;
                         case 2: return Pos3;
                         case 3: return Pos4;
-                        case 4: return Pos5;
                 }
         }
 
@@ -63,8 +61,7 @@ public class LevelObject {
                         Pos1,
                         Pos2,
                         Pos3,
-                        Pos4,
-                        Pos5                        
+                        Pos4
                 }));
                 AddDelay();
         }
@@ -72,8 +69,7 @@ public class LevelObject {
                 _level.Add(new List<float>(new float[] {
                         Pos1,
                         Pos3,
-                        Pos4,
-                        Pos5                       
+                        Pos4
                 }));
                 AddDelay();
         }
@@ -82,16 +78,14 @@ public class LevelObject {
                 _level.Add(new List<float>(new float[] {
                         Pos1,
                         Pos2,
-                        Pos4,
-                        Pos5                        
+                        Pos4
                 }));
                 AddDelay();
         }
         public void AddHighJump() {
                 _level.Add(new List<float>(new float[] {
                         Pos1,
-                        Pos2,
-                        Pos5                        
+                        Pos2
                 }));
                 AddDelay();
         }
