@@ -65,9 +65,9 @@ public class SpawnHandler : MonoBehaviour {
 	void Update () {
 		if (Pause) return;
 		_speedtimer -= Time.deltaTime;
-		if (_speedtimer <= 0 && Speed < 10) {
+		if (_speedtimer <= 0 && Speed < 14) {
 			Speed += 0.2f;
-			if (SpawnFrequency >= 0.1) SpawnFrequency -= 0.015f;
+			if (SpawnFrequency >= 0.075) SpawnFrequency -= 0.015f;
 			_speedtimer = TimePerSpeedup;
 		}
 		_spawntimer -= Time.deltaTime;
