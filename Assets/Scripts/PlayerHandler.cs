@@ -81,7 +81,10 @@ public class PlayerHandler : MonoBehaviour {
 
 	private void Jump() {
 		//if you can't jump, return
-		if (!_jumpable) return;
+		if (!_jumpable) {
+			Debug.Log("not grounded.");
+			return;
+		}
 		float floatheight = Height;
 		//sets the minimum jump height for a short jump
 		_maxShortHopHeight = transform.position.y + 1;
@@ -90,6 +93,7 @@ public class PlayerHandler : MonoBehaviour {
 			_maxShortHopHeight = transform.position.y - 1;
 			floatheight *= -1;
 		}
+		GetComponent<Animator>().SetBool("Jumping", true);
 		_shorthop = false;
 		//allow a small delay before falling
 		_falldelay = true;
@@ -112,6 +116,9 @@ public class PlayerHandler : MonoBehaviour {
 
 		//if the character is touching the ground, you can jump
 		_jumpable = CheckIfGrounded();
+		if (_jumpable) {
+			GetComponent<Animator>().SetBool("Falling", false);
+		}
 
 		//updates highscore
 		if (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker > Highscore) {
@@ -126,8 +133,7 @@ public class PlayerHandler : MonoBehaviour {
 		//Reset gravity and velocity after falldelay is over
 		if (_gravtimer < 0) {
 			_gravtimer = 0;
-			_rb2D.gravityScale = _startgrav;
-			_rb2D.velocity = _jumpvelocity;
+			Fall();
 		}
 		else if (_gravtimer > 0){
 			_gravtimer -= Time.deltaTime;
@@ -183,6 +189,15 @@ public class PlayerHandler : MonoBehaviour {
 			}
 		}
 
+		var topchar = transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y - 0.5;
+		var bottomchar = transform.position.y + 0.75;
+		var topscreen = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y;
+		if (!_upsidedown &&  topchar>=topscreen || _upsidedown && bottomchar <= -topscreen) {
+			Debug.Log("too high");
+			FallDelay();
+			return;
+		}
+
 		//stop jump short if jump isn't held
 		if (!_shorthop) return;
 		//don't stop jumping if you haven't reached the minimum height
@@ -211,10 +226,18 @@ public class PlayerHandler : MonoBehaviour {
 		_falldelay = false;
 	}
 
+	private void Fall() {
+		_rb2D.gravityScale = _startgrav;
+		_rb2D.velocity = _jumpvelocity;
+		GetComponent<Animator>().SetBool("Jumping", false);
+		GetComponent<Animator>().SetBool("Falling", true);
+	}
+
 	private void OnCollisionEnter2D(Collision2D other) {
 		//Collision code which allows you to jump on top of obstacles
 		if (other.gameObject.CompareTag("Floor")) return;
 		if (other.gameObject.CompareTag("Obstacle")) {
+			if (other.transform.position.x + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.x - 0.05 < transform.position.x) return;
 		if ((other.transform.position.y + other.gameObject.GetComponent<SpriteRenderer>().bounds.size.y - 0.03f< transform.position.y && !_upsidedown) 
 		    || (other.transform.position.y + 0.03f > transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2 && _upsidedown)) 
 			return;
@@ -224,9 +247,12 @@ public class PlayerHandler : MonoBehaviour {
 	}
 	private bool CheckIfGrounded() {
 		//We raycast down 1 pixel from this position to check for a collider
-		var hits = Physics2D.RaycastAll(transform.position, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 1.2f);
+		Vector2 backcharacter = new Vector2(transform.position.x - GetComponent<SpriteRenderer>().bounds.size.x / 2,
+			transform.position.y);
+		var hits = Physics2D.RaycastAll(transform.position, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 1f);
+		var backhits = Physics2D.RaycastAll(backcharacter, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 1f);
 		//if a collider was hit, we are grounded
-		return hits.Length > 1;
+		return hits.Length > 1 || backhits.Length > 1;
 	}
 
 	private void Death() {
