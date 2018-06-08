@@ -258,6 +258,8 @@ public class PlayerHandler : MonoBehaviour {
 	private void Death() {
 		//play death particles
 		GetComponentInChildren<ParticleSystem>().Play();
+		GetComponentsInChildren<ParticleSystem>()[1].Pause();
+		GetComponentsInChildren<ParticleSystem>()[1].Clear();
 		//save new high score
 		PlayerPrefs.SetInt("Highscore", Highscore);
 		//open up the end card
@@ -279,6 +281,7 @@ public class PlayerHandler : MonoBehaviour {
 		if (_upsidedown) {
 			Invert();
 		}
+		GetComponentsInChildren<ParticleSystem>()[1].Play();
 		Debug.Log("reset");
 		GetComponent<SpriteRenderer>().enabled = true;
 		GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = true;
