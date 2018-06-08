@@ -22,6 +22,7 @@ public class PlayerHandler : MonoBehaviour {
 	private float _maxShortHopHeight;
 	private float _maxjumpbuffer = 0.2f;
 	private Vector2 _jumpvelocity;
+	private Vector2 _startPosition;
 	//Warping
 	private float _warpcooldown;
 	//Score/game settings
@@ -38,7 +39,7 @@ public class PlayerHandler : MonoBehaviour {
 		_startgrav = _rb2D.gravityScale;
 		_upsidedown = false;
 		Physics2D.gravity = new Vector2(0, -10);
-
+		_startPosition = transform.position;
 	}
 
 	//Inverts the map and warps the player.
@@ -82,7 +83,6 @@ public class PlayerHandler : MonoBehaviour {
 	private void Jump() {
 		//if you can't jump, return
 		if (!_jumpable) {
-			Debug.Log("not grounded.");
 			return;
 		}
 		float floatheight = Height;
@@ -193,7 +193,6 @@ public class PlayerHandler : MonoBehaviour {
 		var bottomchar = transform.position.y + 0.75;
 		var topscreen = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height, 0)).y;
 		if (!_upsidedown &&  topchar>=topscreen || _upsidedown && bottomchar <= -topscreen) {
-			Debug.Log("too high");
 			FallDelay();
 			return;
 		}
@@ -282,7 +281,6 @@ public class PlayerHandler : MonoBehaviour {
 			Invert();
 		}
 		GetComponentsInChildren<ParticleSystem>()[1].Play();
-		Debug.Log("reset");
 		GetComponent<SpriteRenderer>().enabled = true;
 		GameObject.FindGameObjectWithTag("Shadow").GetComponent<SpriteRenderer>().enabled = true;
 		//saves highscore permanently 
@@ -294,7 +292,7 @@ public class PlayerHandler : MonoBehaviour {
 	}
 	//resets player position
 	private void ResetPlayer() {
-		transform.position = new Vector3(-7, 1, -01);
+		transform.position = _startPosition;
 		_jumpable = false;
 		_rb2D.gravityScale = _startgrav;
 	}
