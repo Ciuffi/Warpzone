@@ -113,7 +113,7 @@ public class PlayerHandler : MonoBehaviour {
 		else {
 			_warpcooldown = 0;
 		}
-
+		UpdateTrailSpeed();
 		//if the character is touching the ground, you can jump
 		_jumpable = CheckIfGrounded();
 		if (_jumpable) {
@@ -232,6 +232,10 @@ public class PlayerHandler : MonoBehaviour {
 		GetComponent<Animator>().SetBool("Falling", true);
 	}
 
+	private void UpdateTrailSpeed() {
+		GetComponentsInChildren<ParticleSystem>()[1].startSpeed = FindObjectOfType<SpawnHandler>().Speed;
+	}
+	
 	private void OnCollisionEnter2D(Collision2D other) {
 		//Collision code which allows you to jump on top of obstacles
 		if (other.gameObject.CompareTag("Floor")) return;
