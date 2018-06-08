@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FloorHandler : MonoBehaviour {
 
-	private Vector2 _reset = new Vector2(28.749f, 0.017f);
-	Vector2 _endPosition = new Vector2(-29, 0.017f);
+	private readonly Vector2 _reset = new Vector2(28.749f, 0.017f);
+	private readonly Vector2 _endPosition = new Vector2(-29, 0.017f);
 	
 	// Update is called once per frame
 	void Update () {
