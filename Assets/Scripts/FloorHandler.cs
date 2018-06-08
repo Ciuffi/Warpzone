@@ -9,6 +9,7 @@ public class FloorHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (FindObjectOfType<SpawnHandler>().Pause) return;
 		Vector2 trans = Vector2.left * Time.deltaTime * FindObjectOfType<SpawnHandler>().Speed;
 		transform.Translate(trans);
 		if (transform.position.x < _endPosition.x) transform.position = _reset;

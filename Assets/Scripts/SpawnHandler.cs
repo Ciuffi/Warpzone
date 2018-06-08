@@ -35,7 +35,13 @@ public class SpawnHandler : MonoBehaviour {
 		_up = _levelbook.Beginner;
 		_down = _levelbook.Beginnerdown;
 	}
-	
+
+	private void buildup() {
+		_up = _levelbook.BuildRandomLevel(10, 5, (int) Speed - 5);
+	}
+	private void builddown() {
+		_down = _levelbook.BuildRandomLevel(10, 5, (int) Speed - 5);
+	}
 
 	public void GameOver() {
 		//Destroy all the obstacles
@@ -49,8 +55,8 @@ public class SpawnHandler : MonoBehaviour {
 			_down = _levelbook.Beginnerdown;
 		}
 		else {
-			_up = _levelbook.BuildRandomLevel(30, 5);
-			_down = _levelbook.BuildRandomLevel(30, 5);
+			buildup();
+			builddown();
 		}
 		_spawntimer = 0.1;
 		SpawnFrequency =_startFrequency;
@@ -82,7 +88,7 @@ public class SpawnHandler : MonoBehaviour {
 		if (_levelindex >= l.GetLevel().Count) {
 			Tutorial = false;
 			_levelindex = 0;
-			_up = _levelbook.BuildRandomLevel(30, 5);
+			buildup();
 		}
 		foreach (float f in l.GetLevel()[_levelindex]) {
 			var obstacle = f == 0f ? Instantiate(FloorObstaclePrefab, new Vector3(12, f, 0), Quaternion.identity) 
@@ -96,6 +102,7 @@ public class SpawnHandler : MonoBehaviour {
 		if (_upsidedownlevelindex >= l.GetLevel().Count) {
 			_upsidedownlevelindex = 0;
 			_down = _levelbook.BuildRandomLevel(30, 5);
+			builddown();
 		}
 		foreach (float f in l.GetLevel()[_upsidedownlevelindex]) {
 			var obstacle = f == 0f ? Instantiate(FloorObstaclePrefab, new Vector3(12, f, 0), Quaternion.identity) 

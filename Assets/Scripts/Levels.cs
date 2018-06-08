@@ -85,18 +85,18 @@ public class Levels {
         }
     }
 
-    public LevelObject BuildRandomLevel(int length, int delay = 0) {
+    public LevelObject BuildRandomLevel(int length, int delay = 0, int difficulty = 0) {
         LevelObject l = new LevelObject();
         l.SetDelay(delay);
         for (int i = 0; i < length; i++) {
-            int rand = Random.Range(0, 20);
-            if (rand < 3) {
+            int rand = Random.Range(0, 50);
+            if (rand + difficulty < 8) {
                 PickRandomSimpleBlock(l);
             }
-            else if (rand > 2 && rand < 14) {
+            else if (rand < 40) {
                 PickRandomComplexBlock(l);
             }
-            else if (rand > 13 & rand < 16){
+            else if (rand < 48){
                 l.SetDelay(0);
                 buildRandomLine(l);
                 l.SetDelay(delay);
