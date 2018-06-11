@@ -113,7 +113,7 @@ public class PlayerHandler : MonoBehaviour {
 		else {
 			_warpcooldown = 0;
 		}
-		UpdateTrailSpeed();
+		UpdateTrail();
 		//if the character is touching the ground, you can jump
 		_jumpable = CheckIfGrounded();
 		if (_jumpable) {
@@ -232,8 +232,10 @@ public class PlayerHandler : MonoBehaviour {
 		GetComponent<Animator>().SetBool("Falling", true);
 	}
 
-	private void UpdateTrailSpeed() {
-		GetComponentsInChildren<ParticleSystem>()[1].startSpeed = FindObjectOfType<SpawnHandler>().Speed;
+	private void UpdateTrail() {
+		ParticleSystem.MainModule p = GetComponentsInChildren<ParticleSystem>()[1].main;
+		p.startSpeed = new ParticleSystem.MinMaxCurve(FindObjectOfType<SpawnHandler>().Speed);
+		p.startColor = RainbowColors.PickNextColor();
 	}
 	
 	private void OnCollisionEnter2D(Collision2D other) {

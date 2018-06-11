@@ -26,7 +26,7 @@ public class charMenuHandler : MonoBehaviour {
 		if (_timer < 0) {
 			Camera.main.backgroundColor = Camera.main.backgroundColor == Color.black ? Color.white : Color.black;
 			FindObjectOfType<UiInverter>().Invert();
-			GameObject p = Instantiate(WarpParticlein, transform.position, Quaternion.identity);
+			Instantiate(WarpParticlein, transform.position, Quaternion.identity);
 			_timer = 0;
 		}
 		else if (_timer > 0){
