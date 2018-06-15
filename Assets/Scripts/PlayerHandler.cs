@@ -10,6 +10,9 @@ public class PlayerHandler : MonoBehaviour {
 	private GameObject[] _backgrounds;
 	private GameObject _shadow;
 	public GameObject WarpParticles;
+	public AudioClip JumpClip;
+	public AudioClip DeathClip;
+	public AudioClip WarpClip;
 	//jumping
 	private bool _jumpable;
 	private bool _jumped;
@@ -74,6 +77,7 @@ public class PlayerHandler : MonoBehaviour {
 		//Create warp particles in both shadow and current position
 		Instantiate(WarpParticles, transform.position, Quaternion.identity);
 		Instantiate(WarpParticles, _shadow.transform.position, Quaternion.identity);
+		GetComponent<AudioSource>().PlayOneShot(WarpClip);
 		//swap positions.
 		transform.position = _shadow.transform.position;
 		//Flip the sprites.
@@ -96,6 +100,7 @@ public class PlayerHandler : MonoBehaviour {
 		}
 		_jumpable = false;
 		GetComponent<Animator>().SetBool("Jumping", true);
+		GetComponent<AudioSource>().PlayOneShot(JumpClip);
 		_shorthop = false;
 		_jumped = true;
 		//allow a small delay before falling
@@ -270,6 +275,7 @@ public class PlayerHandler : MonoBehaviour {
 		GetComponentInChildren<ParticleSystem>().Play();
 		GetComponentsInChildren<ParticleSystem>()[1].Pause();
 		GetComponentsInChildren<ParticleSystem>()[1].Clear();
+		GetComponent<AudioSource>().PlayOneShot(DeathClip);
 		//save new high score
 		PlayerPrefs.SetInt("Highscore", Highscore);
 		//open up the end card
