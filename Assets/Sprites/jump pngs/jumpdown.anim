@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: jumpfall
+  m_Name: jumpdown
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -19,9 +19,9 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 1f6c8537958e84f84bcfbecb5e827970, type: 3}
+      value: {fileID: 21300000, guid: 76e667d0cf74b49f6ab3193a688591b0, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 35ad639586b564afca71072dd126a30c, type: 3}
+      value: {fileID: 21300000, guid: 61fc371e30a3747c0b6f757a539ec4ac, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -41,8 +41,8 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 1f6c8537958e84f84bcfbecb5e827970, type: 3}
-    - {fileID: 21300000, guid: 35ad639586b564afca71072dd126a30c, type: 3}
+    - {fileID: 21300000, guid: 76e667d0cf74b49f6ab3193a688591b0, type: 3}
+    - {fileID: 21300000, guid: 61fc371e30a3747c0b6f757a539ec4ac, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

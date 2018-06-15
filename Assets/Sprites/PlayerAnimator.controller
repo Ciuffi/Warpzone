@@ -160,7 +160,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: jumpstart
+  m_Name: jumpup
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -175,7 +175,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2ff2d49f571e54b2cb1285a8fd34eb04, type: 2}
+  m_Motion: {fileID: 7400000, guid: 133008c1bfdf546bcb257c5a83a79720, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -187,7 +187,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: jumpfall
+  m_Name: jumpdown
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -201,7 +201,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1ec47f521b7874596ab93c4b18514ccb, type: 2}
+  m_Motion: {fileID: 7400000, guid: 98b91a64f19dd4968ac9169a30e4ba2d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
