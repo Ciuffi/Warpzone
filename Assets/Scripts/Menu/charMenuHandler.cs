@@ -18,6 +18,7 @@ public class charMenuHandler : MonoBehaviour {
 		transform.position = new Vector3(Random.Range(-8, 8), Random.Range(-2, 2));
 		GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
 		Instantiate(WarpParticleout, transform.position, Quaternion.identity);
+		GetComponent<AudioSource>().Play();
 		_timer = _warptimer;
 	}
 	
