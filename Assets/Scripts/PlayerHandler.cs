@@ -235,8 +235,7 @@ public class PlayerHandler : MonoBehaviour {
 	private void UpdateTrail() {
 		ParticleSystem.MainModule p = GetComponentsInChildren<ParticleSystem>()[1].main;
 		p.startSpeed = new ParticleSystem.MinMaxCurve(FindObjectOfType<SpawnHandler>().Speed);
-		p.startColor = RainbowColors.PickNextColor();
-	}
+ 	}
 	
 	private void OnCollisionEnter2D(Collision2D other) {
 		//Collision code which allows you to jump on top of obstacles
