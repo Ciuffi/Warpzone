@@ -14,5 +14,7 @@ public class ShadowHandler : MonoBehaviour {
 	void Update () {
 		//Inverts player height (Only works with middle being 0)
 		gameObject.transform.position = new Vector3(player.transform.position.x,  player.transform.position.y * -1, player.transform.position.z);
+		GetComponent<Animator>().SetBool("Jumping", player.GetComponent<Animator>().GetBool("Jumping"));
+		GetComponent<Animator>().SetBool("Falling", player.GetComponent<Animator>().GetBool("Falling"));
 	}
 }
