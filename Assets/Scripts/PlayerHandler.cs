@@ -12,6 +12,7 @@ public class PlayerHandler : MonoBehaviour {
 	public GameObject WarpParticles;
 	//jumping
 	private bool _jumpable;
+	private bool _jumped;
 	public float Height = 6;
 	private bool _shorthop = false;
 	public float GravDelay = 0.05f;	
@@ -93,8 +94,10 @@ public class PlayerHandler : MonoBehaviour {
 			_maxShortHopHeight = transform.position.y - 1;
 			floatheight *= -1;
 		}
+		_jumpable = false;
 		GetComponent<Animator>().SetBool("Jumping", true);
 		_shorthop = false;
+		_jumped = true;
 		//allow a small delay before falling
 		_falldelay = true;
 		//calculate the max height of a max power jump
@@ -117,9 +120,12 @@ public class PlayerHandler : MonoBehaviour {
 		//if the character is touching the ground, you can jump
 		_jumpable = CheckIfGrounded();
 		if (_jumpable) {
+			_jumped = false;
 			GetComponent<Animator>().SetBool("Falling", false);
+			GetComponent<Animator>().SetBool("Jumping", false);
+		}else if (!_jumped) {
+			GetComponent<Animator>().SetBool("Falling", true);
 		}
-
 		//updates highscore
 		if (GameObject.FindGameObjectWithTag("Timer").GetComponent<UiTimer>().Ticker > Highscore) {
 			_newscore = true;
@@ -253,8 +259,8 @@ public class PlayerHandler : MonoBehaviour {
 		//We raycast down 1 pixel from this position to check for a collider
 		Vector2 backcharacter = new Vector2(transform.position.x - GetComponent<SpriteRenderer>().bounds.size.x / 2,
 			transform.position.y);
-		var hits = Physics2D.RaycastAll(transform.position, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 1f);
-		var backhits = Physics2D.RaycastAll(backcharacter, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 1f);
+		var hits = Physics2D.RaycastAll(transform.position, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 0.48f);
+		var backhits = Physics2D.RaycastAll(backcharacter, _upsidedown ? new Vector2(0, 1) : new Vector2(0, -1), 0.48f);
 		//if a collider was hit, we are grounded
 		return hits.Length > 1 || backhits.Length > 1;
 	}
